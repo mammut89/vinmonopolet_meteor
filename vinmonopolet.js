@@ -1,5 +1,5 @@
 Polet = new Mongo.Collection("polet");
-// this variable will store the visualisation so we can delete it when we need to 
+
 var visjsobj;
 if (Meteor.isClient){
 
@@ -47,9 +47,6 @@ if (Meteor.isClient){
     }
 
   Template.network_viz.events({
-    // event handler for when the user clicks on the 
-    // blobs button
-   // option in the drop down list
     "change .js-select-single-feature":function(event){
       event.preventDefault();
       var feature = $(event.target).val();
@@ -63,14 +60,10 @@ if (Meteor.isClient){
       } else {
         initBlobVis("Øl");
       }
-    }, 
-    // event handler for when the user clicks on the 
-    // timeline button
-    
+    }
   });
 
 Template.threeD_viz.events({
-      
      "change .js-select-single-feature":function(event){
       event.preventDefault();
       var feature = $(event.target).val();
@@ -116,22 +109,11 @@ Template.twoD_viz.events({
 
 }
 
-
-
-////////////////////////////
-///// functions that set up and display the visualisation
-////////////////////////////
-
-
-// function that creates a new timeline visualisation
 function initDateVis(chosenAlcoholType){
   // clear out the old visualisation if needed
 
   var ind = 0;
-  
   var items = new Array();
- 
-  // set up the data plotter
   var options = {
     style:'bar', 
   };
@@ -139,9 +121,6 @@ function initDateVis(chosenAlcoholType){
   // put our graph into 
   var container = document.getElementById('visjs');
   container.innerHTML = "";
-
-  // create the graph
- // visjsobj = new vis.Graph2d(container, items, options);
 
 
 var drinks;
@@ -163,27 +142,20 @@ var drinks;
   });
 
   drinks.forEach(function(drink){
- // if(parseFloat(drink.Alkohol.replace(",", ".")) > 47){
     items[ind] = {
         x: ind, 
         y: parseFloat(drink.Alkohol), 
         // slighlty hacky label -- check out the vis-label
- 
         label:{content:drink.Varenavn + " - " + drink.Varetype + " - " + drink.Volum, className:'vis-label', xOffset:-5} 
       };
     ind ++ ;
 //  }
 });
-//  var items3  = items2.slice(0,1000);
   visjsobj = new vis.Graph2d(container, items, options);
-  // tell the graph to set up its axes so all data points are shown
   visjsobj.fit();
 }
 
-// function that creates a new blobby visualisation
 function initBlobVis(chosenAlcoholType){
-  // clear out the old visualisation if needed
-
 
   var drinks = Polet.find({Varetype: chosenAlcoholType});
   var allDrinks = Polet.find({});
@@ -207,7 +179,6 @@ function initBlobVis(chosenAlcoholType){
 
   for (distributor in distributors) {
     if (!distributors.hasOwnProperty(distributor)) {
-        //The current property is not a direct property of p
         continue;
     }
       nodes[ind] = {
@@ -252,9 +223,6 @@ var findDistributorId = function(distributorName){
         });
       }
   });
-
-
-    // this data will be used to create the visualisation
     var data = {
       nodes: nodes,
       edges: edges
@@ -277,18 +245,7 @@ function init3DViz(chosenAlcoholType){
 
   
    var data = new vis.DataSet();
-    // create some nice looking data with sin/cos
     var counter = 0;
-    var steps = 50;  // number of datapoints will be steps*steps
-    var axisMax = 314;
-    var axisStep = axisMax / steps;
-    // for (var x = 0; x < axisMax; x+=axisStep) {
-    //     for (var y = 0; y < axisMax; y+=axisStep) {
-    //         var value = (Math.sin(x/50) * Math.cos(y/50) * 50 + 50);
-    //         data.add({id:counter++,x:x,y:y,z:value,style:value});
-    //     }
-    // }
-
     var drinks;
 
     if(chosenAlcoholType === "*"){
@@ -298,8 +255,6 @@ function init3DViz(chosenAlcoholType){
     } else if(chosenAlcoholType !== undefined){
       drinks = Polet.find({Varetype: chosenAlcoholType});
     }
-
-    console.log(chosenAlcoholType);
 
     var counter = 0;
     drinks.forEach(function(drink){
