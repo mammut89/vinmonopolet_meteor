@@ -1,4 +1,3 @@
-// this collection contains all the songs
 Polet = new Mongo.Collection("polet");
 // this variable will store the visualisation so we can delete it when we need to 
 var visjsobj;
@@ -129,13 +128,8 @@ function initDateVis(chosenAlcoholType){
   // clear out the old visualisation if needed
 
   var ind = 0;
-  // generate an array of items
-  // from the songs collection
-  // where each item describes a song plus the currently selected
-  // feature
+  
   var items = new Array();
-  // iterate the songs collection, converting each song into a simple
-  // object that the visualiser understands
  
   // set up the data plotter
   var options = {
@@ -174,7 +168,7 @@ var drinks;
         x: ind, 
         y: parseFloat(drink.Alkohol), 
         // slighlty hacky label -- check out the vis-label
-        // class in song_data_viz.css 
+ 
         label:{content:drink.Varenavn + " - " + drink.Varetype + " - " + drink.Volum, className:'vis-label', xOffset:-5} 
       };
     ind ++ ;
@@ -208,7 +202,6 @@ function initBlobVis(chosenAlcoholType){
     alcoholTypes[alkoholType] = true;
   });
   
-  // find all songs from the Songs collection
   var nodes = new Array();
   var ind = 0;
 
